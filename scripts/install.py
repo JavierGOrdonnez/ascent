@@ -73,7 +73,7 @@ def run(args):
         print('Skipping conda portion of installation\n')
     else:
         if sys.platform.startswith('darwin') or sys.platform.startswith('linux'):
-            subprocess.check_call(["source", "config/system/installation/install.sh", "-i"], executable="/bin/bash")
+            subprocess.check_call(["bash", "-c", "source config/system/installation/install.sh -i"])
         else:
             subprocess.check_call(['powershell.exe', '.\\config\\system\\installation\\install.ps1'])
     print('Installation complete!\n')
