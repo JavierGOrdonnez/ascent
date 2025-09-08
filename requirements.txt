@@ -20,4 +20,4 @@ shapely~=1.8
 tqdm~=4.67
 wheel~=0.44
 xlsxwriter~=3.2
-neuron~=8.2
+neuron==8.2.3
