@@ -618,10 +618,12 @@ def confirm_submission(n_fibers, rundata, submission_context):
         print(f'Submitting the following runs (submission_context={submission_context}):')
         print(df.to_string(index=False))
         print(f'Will result in running {n_fibers} fiber simulations')
-        proceed = input('\t Would you like to proceed?\n' '\t\t 0 = NO\n' '\t\t 1 = YES\n')
+        if os.environ.get('DISPLAY') is None:
+            proceed = '1'  # automatically go forward in the non-display mode
+        else:
+            proceed = input('\t Would you like to proceed?\n' '\t\t 0 = NO\n' '\t\t 1 = YES\n')
         if int(proceed) != 1:
             sys.exit()
-        else:
             print('Proceeding...')
     else:
         print(f'Skipping summary, submitting {n_fibers} fibers...')

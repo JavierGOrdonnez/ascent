@@ -34,10 +34,14 @@ def export_env(runner: Runner):
     python_version = sys.version_info
     python_version = 'python==' + '.'.join([str(v) for v in python_version[:3]])
     neuron_version = 'NEURON==' + neuron.__version__
-    comsol_path = runner.search(Config.ENV, Env.COMSOL_PATH.value)
-    with open(os.path.join(comsol_path, 'readme.txt')) as f:
-        comsol_version = f.readline().strip('\n')
-    comsol_version = 'COMSOL==' + comsol_version.split(' ')[1]
+    try:
+        comsol_path = runner.search(Config.ENV, Env.COMSOL_PATH.value)
+        with open(os.path.join(comsol_path, 'readme.txt')) as f:
+            comsol_version = f.readline().strip('\n')
+        comsol_version = 'COMSOL==' + comsol_version.split(' ')[1]
+    except:
+        print('COMSOL version not found')
+        comsol_version = 'COMSOL==unknown'
     sample_path = 'samples/' + str(runner.search(Config.RUN, 'sample'))
     with open(sample_path + '/software_info.txt', 'w') as f:
         for sv in (ascent_version, python_version, comsol_version, neuron_version):
@@ -179,7 +183,7 @@ def run(args):  # noqa C901
                 str(argument): {
                     'run_time': datetime.now().strftime("%Y-%m-%d_%H-%M-%S-%f"),
                     'run_json': run_path,
-                    'run_name': run_dict['pseudonym'],
+                    # 'run_name': run_dict['pseudonym'],
                     'sample_json': sample_path,
                     'sample_int': sample_int,
                     'models': models_dict,
